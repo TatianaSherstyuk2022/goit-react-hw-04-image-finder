@@ -1,10 +1,10 @@
 import { Component } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import s from './Modal.module.css';
 
 export class Modal extends Component {
   onEscapePress = e => {
-    console.log(e.code === 'Escape');
     if (e.code === 'Escape') {
       this.props.closeModal();
     }
@@ -20,11 +20,10 @@ export class Modal extends Component {
 
   render() {
     const { largeImageURL } = this.props.data;
-    console.log(largeImageURL);
 
     return createPortal(
-      <div>
-        <div>
+      <div className={s.overlay}>
+        <div className={s.modal}>
           <img src={largeImageURL} alt="img" />
         </div>
       </div>,
