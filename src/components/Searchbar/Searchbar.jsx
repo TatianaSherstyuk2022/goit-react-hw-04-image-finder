@@ -27,14 +27,14 @@ export class Searchbar extends Component {
     const { query } = this.state.query;
     
   return (
-    <header className={s.header}>
-      <form className={s.form} onSubmit={this.handleSubmit}>
-        <button type="submit" className={s.btn}>
+    <header className={s.searchbar}>
+      <form className={s.searchForm} onSubmit={this.handleSubmit}>
+        <button type="submit" className={s.searchFormButton}>
           <span className={s.label}>Search</span>
         </button>
 
         <input
-          className={s.input}
+          className={s.searchFormInput}
           type="text"
           value={query}
           autoComplete="off"
