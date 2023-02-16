@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 export class Searchbar extends Component {
   state = {
     query: '',
+    currentPage: 1,
   };
 
   onChangeInput = e => {
@@ -15,6 +16,8 @@ export class Searchbar extends Component {
     e.preventDefault();
 
     this.props.handleSubmit(this.state.query);
+    this.setState({ currentPage: 1 });
+
   };
 
   render() {

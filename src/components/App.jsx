@@ -19,6 +19,7 @@ export class App extends Component {
 
   handleSubmit = query => {
     this.setState({ query });
+    this.setState({ currentPage:1 });
   };
 
   async componentDidUpdate(_, prevState) {

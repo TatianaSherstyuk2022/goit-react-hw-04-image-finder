@@ -18,11 +18,17 @@ export class Modal extends Component {
     window.removeEventListener('keydown', this.onEscapePress);
   }
 
+  onOverlayClose = e => {
+    if (e.currentTarget !== e.target) {
+      this.props.closeModal();
+    }
+  };
+
   render() {
     const { largeImageURL } = this.props.data;
 
     return createPortal(
-      <div className={s.overlay}>
+      <div className={s.overlay} onClick={this.onOverlayClose}>
         <div className={s.modal}>
           <img src={largeImageURL} alt="img" />
         </div>
