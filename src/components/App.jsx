@@ -61,7 +61,6 @@ export class App extends Component {
       <Container>
         <Searchbar handleSubmit={this.handleSubmit} />
         <ImageGallery items={images} />
-        {/* <Button onClick={this.onNextPage} /> */}
         {totalHits > 12 && totalHits > images.length && (
           <Button onClick={this.onNextPage} />
         )}

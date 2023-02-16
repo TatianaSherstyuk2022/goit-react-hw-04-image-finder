@@ -1,4 +1,5 @@
 import { React } from "react";
+import PropTypes from 'prop-types';
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
 import s from '../ImageGallery/ImageGallery.module.css'
 
@@ -11,3 +12,11 @@ export function ImageGallery({ items }) {
       </ul>
   );
 }
+
+ImageGallery.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+    }),
+  ),
+};

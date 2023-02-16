@@ -33,6 +33,6 @@ export class Modal extends Component {
 }
 
 Modal.propTypes = {
-  image: PropTypes.object,
-  onClose: PropTypes.func,
+  data: PropTypes.object,
+  closeModal: PropTypes.func,
 };
