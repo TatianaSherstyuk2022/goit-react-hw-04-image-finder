@@ -1,6 +1,6 @@
-import '../Button/Button.module.css'
+import '../Button/Button.module.css';
 import PropTypes from 'prop-types';
-import s from '../Button/Button.module.css'
+import s from '../Button/Button.module.css';
 
 export const Button = ({ onClick }) => {
   return (

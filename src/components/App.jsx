@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from './Container/Container';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { requestImages } from 'services/api';
@@ -6,67 +6,50 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { Button } from './Button/Button';
 import { Loader } from './Loader/Loader';
 
-export class App extends Component {
-  state = {
-    images: [],
-    query: '',
-    error: null,
-    isLoading: false,
-    perPage: 12,
-    currentPage: 1,
-    totalHits: 0,
+export function App() {
+  const [query, setQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalHits, setTotalHits] = useState(0);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [images, setImages] = useState([]);
+
+  const handleSubmit = query => {
+    setImages([]);
+    setQuery(query);
+    setCurrentPage(1);
   };
 
-  handleSubmit = query => {
-    this.setState({ query });
-    this.setState({ currentPage:1 });
-  };
-
-  async componentDidUpdate(_, prevState) {
-    const { query, currentPage } = this.state;
-    if (prevState.query !== query || prevState.currentPage !== currentPage) {
-      this.setState({ isLoading: true });
-
+  useEffect(() => {
+    if (!query) return;
+    const fetchData = async () => {
+      setIsLoading(true);
       try {
-        const { totalHits, hits } = await requestImages(query, currentPage);
-        this.setState({ images: hits, totalHits: totalHits });
+        const { hits, totalHits } = await requestImages(query, currentPage);
+        setImages(prevState => [...prevState, ...hits]);
+
+        setTotalHits(totalHits);
       } catch (error) {
-        this.setState({ error: error.message });
+        setError(error.message);
       } finally {
-        this.setState({ isLoading: false });
+        setIsLoading(false);
       }
-    }
-  }
+    };
+    if (query !== '') fetchData();
+  }, [query, currentPage]);
 
-  onNextPage = async () => {
-    this.setState({ isLoading: true });
-
-    try {
-      const { hits } = await requestImages(
-        this.state.query,
-        (this.state.currentPage += 1)
-      );
-      this.setState(prevState => ({
-        images: [...prevState.images, ...hits],
-      }));
-    } catch (error) {
-      this.setState({ error: error.message });
-    } finally {
-      this.setState({ isLoading: false });
-    }
+  const onNextPage = async () => {
+    setCurrentPage(currentPage + 1);
   };
 
-  render() {
-    const { totalHits, images, isLoading } = this.state;
-    return (
-      <Container>
-        <Searchbar handleSubmit={this.handleSubmit} />
-        <ImageGallery items={images} />
-        {totalHits > 12 && totalHits > images.length && (
-          <Button onClick={this.onNextPage} />
-        )}
-        {isLoading && <Loader />}
-      </Container>
-    );
-  }
+  return (
+    <Container>
+      <Searchbar handleSubmit={handleSubmit} />
+      <ImageGallery items={images} />
+      {totalHits > 12 && totalHits > images.length && (
+        <Button onClick={onNextPage} />
+      )}
+      {isLoading && <Loader />}
+    </Container>
+  );
 }

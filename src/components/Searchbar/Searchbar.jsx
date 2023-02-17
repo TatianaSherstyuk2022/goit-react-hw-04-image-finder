@@ -17,7 +17,6 @@ export class Searchbar extends Component {
 
     this.props.handleSubmit(this.state.query);
     this.setState({ currentPage: 1 });
-
   };
 
   render() {
